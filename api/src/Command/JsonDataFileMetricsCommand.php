@@ -41,7 +41,6 @@ class JsonDataFileMetricsCommand extends Command
         // Aggregate fields names, types and sizes
         $items = Items::fromFile($file, ['decoder' => new ExtJsonDecoder(true)]);
         $fields = [];
-        $io->info("Total items count : " . iterator_count($items));
         $progress = new ProgressBar($output);
         foreach ($progress->iterate($items) as $item) {
             foreach (array_keys($item) as $property) {

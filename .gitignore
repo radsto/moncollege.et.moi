@@ -1,4 +1,3 @@
-
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -9,5 +8,13 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
-data/
-!.gitkeep
+# Docker
+_docker/data/
+!_docker/data/.gitkeep
+
+# API
+api/data/
+api/var/
+api/vendor/
+
+# Excludes

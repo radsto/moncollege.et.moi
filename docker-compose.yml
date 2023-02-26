@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  db:
+    image: mariadb:10.11.2
+    restart: unless-stopped
+    ports:
+      - "43306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: moncollege_et_moi
+      MARIADB_USER: dev
+      MARIADB_PASSWORD: dev
+    volumes:
+      - ./_docker/data/db:/var/lib/mysql
+
+  php:
+    build: _docker/container/php
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: mysql://dev:dev@db:3306/moncollege_et_moi
+    volumes:
+      - ./api:/app/api
+
+  nginx:
+    image: nginx:1.23.3-alpine
+    restart: unless-stopped
+    ports:
+      - "8081:81"
+    volumes:
+      - ./_docker/container/nginx/conf.d/api.conf:/etc/nginx/conf.d/api.conf
+      - ./api:/app/api
+    depends_on:
+      - db
+      - php
